@@ -20,12 +20,16 @@ class ChannelMessage:
     emojis: list = field(default_factory=list)
     # list of files
     files: list = field(default_factory=list)
-    has_files: str = "no"
+    has_files: bool = False
     pinned: bool = False
     edited: bool = False
+    replies: int = 0
     can_reply: bool = True
     type: str = DEFAULT_MESSAGE_TYPE
     timestamp: str = timezone.now().isoformat()
+
+    #NewlyAdded: 
+    event: dict = field(default_factory=dict)
 
     def create(self, organization_id):
         payload = {
@@ -38,6 +42,8 @@ class ChannelMessage:
             "pinned": self.pinned,
             "edited": self.edited,
             "type": self.type,
+            "event": self.event,
+            "replies": self.replies,
             "can_reply": self.can_reply,
             "timestamp": self.timestamp,
         }
